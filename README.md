@@ -6,8 +6,7 @@ A full-stack chat and video call application built with React Native (frontend) 
 
 
 ##Download from 
-servers are live
-https://drive.google.com/file/d/1pahl_nsxj4SLgoHzUSiuFL8_VbW1Lr5Q/view?usp=drivesdk
+https://github.com/valive421/vartalabh/releases/tag/apk
 
 ## Features
 - Real-time chat messaging
