@@ -9,8 +9,7 @@ function RequestScreen() {
     const requestList = useGlobalStore(state => state.requestList);
     const user = useGlobalStore(state => state.user);
     const requestAccept = useGlobalStore(state => state.requestAccept);
-    // Uncomment and implement decline if needed
-    // const requestDecline = useGlobalStore(state => state.requestDecline);
+
 
     const handleAccept = (username) => {
         console.log("Accepted request", username);

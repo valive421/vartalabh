@@ -668,7 +668,7 @@ function MessagesScreen({ navigation, route }) {
 					onFocus={() => setInputFocused(true)}
 					onBlur={() => setInputFocused(false)}
 				/>
-				{/* Video call button is now in the header */}
+				
 			</View>
 		</SafeAreaView>
 	);

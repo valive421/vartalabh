@@ -7,8 +7,8 @@ import utils from "../core/utils";
 
 function ProfileScreen() {
     const {  logout } = useGlobalStore();
-    const uploadThumbnail = useGlobalStore(state => state.uploadTHumbnail); // fix: get correct function
-    const user = useGlobalStore(state => state.user); // fix: get correct function
+    const uploadThumbnail = useGlobalStore(state => state.uploadTHumbnail); 
+    const user = useGlobalStore(state => state.user); 
     
     return (
         <SafeAreaView style={styles.safe}>

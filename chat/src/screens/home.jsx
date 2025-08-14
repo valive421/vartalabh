@@ -50,7 +50,7 @@ function HomeScreen({ navigation }) {
 			{/* Tab navigator */}
 			<Tab.Navigator
 				screenOptions={({ route }) => ({
-					// Fix image require path: use relative path from this file
+					
 					headerLeft: () => (
 						<View style={{ marginRight: 10 }}>
 							<Image

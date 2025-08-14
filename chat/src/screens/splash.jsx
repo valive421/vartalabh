@@ -9,8 +9,7 @@ import {
 
 function SplashScreen({ navigation }) {
 
-	// Remove navigation.setOptions if you use stack without header for Splash
-	// Or, if you use Splash as initialRoute, make sure the name matches exactly ("Splash")
+	
 useLayoutEffect(() => {
 		navigation.setOptions({
 			headerShown: false

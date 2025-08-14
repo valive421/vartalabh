@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import api from "../core/api"; // Adjust the import path as needed
+import api from "../core/api"; 
 import utils from "../core/utils";
 
 const { width } = Dimensions.get("window");
@@ -55,7 +55,7 @@ function SignupScreen({ navigation }) {
                     ...response.data.user,
                     tokens: response.data.tokens
                 }, response.data.tokens);
-                // No need to navigate, global state will trigger navigation
+                
             }).catch((error) => {
                 utils.log("Sign-up failed:", error);
             });
