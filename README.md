@@ -79,26 +79,15 @@ app/
 | Source             | Direction      | Description                                 | Payload Example / Notes                |
 |--------------------|---------------|---------------------------------------------|----------------------------------------|
 | `search`           | client → server | Search for users                            | `{ "source": "search", "query": "..." }` |
-| `search`           | server → client | Search results                              | `{ "source": "search", "data": [user, ...] }` |
+
 | `thumbnail`        | client → server | Upload/change user thumbnail (base64)        | `{ "source": "thumbnail", "base64": "...", "filename": "..." }` |
-| `thumbnail`        | server → client | Updated user info with new thumbnail         | `{ "source": "thumbnail", "data": {user} }` |
-| `request.connect`  | client → server | Send a friend request                       | `{ "source": "request.connect", "username": "target_username" }` |
-| `request.connect`  | server → client | Friend request created/updated              | `{ "source": "request.connect", "data": {request} }` |
-| `request.accept`   | client → server | Accept a friend request                     | `{ "source": "request.accept", "username": "sender_username" }` |
 | `request.accept`   | server → client | Friend request accepted                     | `{ "source": "request.accept", "data": {request} }` |
-| `request.list`     | client → server | Get all pending friend requests (sent/recv) | `{ "source": "request.list" }`         |
 | `request.list`     | server → client | List of pending requests                    | `{ "source": "request.list", "data": [request, ...] }` |
-| `friend.list`      | client → server | Get all friends                             | `{ "source": "friend.list" }`          |
 | `friend.list`      | server → client | List of friends                             | `{ "source": "friend.list", "data": [friend, ...] }` |
-| `message.send`     | client → server | Send a message                              | `{ "source": "message.send", "connection_id": 1, "text": "..." }` |
 | `message.send`     | server → client | New message (to both sender & receiver)     | `{ "source": "message.send", "data": {message} }` |
-| `message.list`     | client → server | Get messages for a connection               | `{ "source": "message.list", "connection_id": 1, "next": null }` |
 | `message.list`     | server → client | List of messages                            | `{ "source": "message.list", "data": {messages: [...], next: ...} }` |
-| `message.typing`   | client → server | Typing indicator                            | `{ "source": "message.typing", "username": "target_username" }` |
 | `message.typing`   | server → client | Typing indicator                            | `{ "source": "message.typing", "data": {...} }` |
-| `message.read`     | client → server | Mark message as read                        | `{ "source": "message.read", "message_id": 123 }` |
 | `message.read`     | server → client | Message read event                          | `{ "source": "message.read", "data": {message_id: 123, status: "read"} }` |
-| `message.delivered`| server → client | Message delivered event                     | `{ "source": "message.delivered", "data": {message_id: 123, status: "delivered"} }` |
 | `user.status`      | server → client | Friend online/offline status                | `{ "source": "user.status", "data": {username: "...", online: true/false} }` |
 | `ping`             | client → server | Keepalive ping                              | `{ "source": "ping" }`                 |
 | `pong`             | server → client | Keepalive pong                              | `{ "source": "pong" }`                 |
