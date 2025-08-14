@@ -53,22 +53,18 @@ app/
 ```
 
 
-# Vartalab API & WebSocket Routes
-
 ## REST API Endpoints
 
 | Endpoint                | Method | Description                       |
 |-------------------------|--------|-----------------------------------|
-| `/api/signin/`          | POST   | User sign-in                      |
+| `/api/signin/`          | POST   | User sign-in (returns user & tokens) |
 | `/api/token/refresh/`   | POST   | Refresh JWT access token          |
 | `/api/user/`            | GET    | Get current user info             |
 | `/api/user/<username>/` | GET    | Get user info by username         |
-| `/api/friend/list/`     | GET    | Get friend list                   |
-| `/api/message/list/`    | GET    | Get messages for a connection     |
-| `/api/message/send/`    | POST   | Send a message                    |
-| `/api/thumbnail/`       | POST   | Upload/change user thumbnail      |
+| `/api/thumbnail/`       | POST   | Upload/change user thumbnail (base64) |
 
-> **Note:** Some endpoints may require authentication via JWT token.
+
+> **Note:** Most endpoints require authentication via JWT token.
 
 ---
 
@@ -80,27 +76,32 @@ app/
 
 #### Supported `source` messages (JSON):
 
-| Source             | Description                                 |
-|--------------------|---------------------------------------------|
-| `search`           | Search for users                            |
-| `thumbnail`        | Upload/change user thumbnail                |
-| `request.connect`  | Send a friend request                       |
-| `request.accept`   | Accept a friend request                     |
-| `request.list`     | Get all pending friend requests             |
-| `friend.list`      | Get all friends                             |
-| `message.send`     | Send a message                              |
-| `message.list`     | Get messages for a connection               |
-| `message.typing`   | Typing indicator                            |
-| `message.read`     | Mark message as read                        |
-| `ping` / `pong`    | Keepalive                                   |
-
-#### Example message format:
-```json
-{
-  "source": "request.connect",
-  "username": "target_username"
-}
-```
+| Source             | Direction      | Description                                 | Payload Example / Notes                |
+|--------------------|---------------|---------------------------------------------|----------------------------------------|
+| `search`           | client → server | Search for users                            | `{ "source": "search", "query": "..." }` |
+| `search`           | server → client | Search results                              | `{ "source": "search", "data": [user, ...] }` |
+| `thumbnail`        | client → server | Upload/change user thumbnail (base64)        | `{ "source": "thumbnail", "base64": "...", "filename": "..." }` |
+| `thumbnail`        | server → client | Updated user info with new thumbnail         | `{ "source": "thumbnail", "data": {user} }` |
+| `request.connect`  | client → server | Send a friend request                       | `{ "source": "request.connect", "username": "target_username" }` |
+| `request.connect`  | server → client | Friend request created/updated              | `{ "source": "request.connect", "data": {request} }` |
+| `request.accept`   | client → server | Accept a friend request                     | `{ "source": "request.accept", "username": "sender_username" }` |
+| `request.accept`   | server → client | Friend request accepted                     | `{ "source": "request.accept", "data": {request} }` |
+| `request.list`     | client → server | Get all pending friend requests (sent/recv) | `{ "source": "request.list" }`         |
+| `request.list`     | server → client | List of pending requests                    | `{ "source": "request.list", "data": [request, ...] }` |
+| `friend.list`      | client → server | Get all friends                             | `{ "source": "friend.list" }`          |
+| `friend.list`      | server → client | List of friends                             | `{ "source": "friend.list", "data": [friend, ...] }` |
+| `message.send`     | client → server | Send a message                              | `{ "source": "message.send", "connection_id": 1, "text": "..." }` |
+| `message.send`     | server → client | New message (to both sender & receiver)     | `{ "source": "message.send", "data": {message} }` |
+| `message.list`     | client → server | Get messages for a connection               | `{ "source": "message.list", "connection_id": 1, "next": null }` |
+| `message.list`     | server → client | List of messages                            | `{ "source": "message.list", "data": {messages: [...], next: ...} }` |
+| `message.typing`   | client → server | Typing indicator                            | `{ "source": "message.typing", "username": "target_username" }` |
+| `message.typing`   | server → client | Typing indicator                            | `{ "source": "message.typing", "data": {...} }` |
+| `message.read`     | client → server | Mark message as read                        | `{ "source": "message.read", "message_id": 123 }` |
+| `message.read`     | server → client | Message read event                          | `{ "source": "message.read", "data": {message_id: 123, status: "read"} }` |
+| `message.delivered`| server → client | Message delivered event                     | `{ "source": "message.delivered", "data": {message_id: 123, status: "delivered"} }` |
+| `user.status`      | server → client | Friend online/offline status                | `{ "source": "user.status", "data": {username: "...", online: true/false} }` |
+| `ping`             | client → server | Keepalive ping                              | `{ "source": "ping" }`                 |
+| `pong`             | server → client | Keepalive pong                              | `{ "source": "pong" }`                 |
 
 ---
 
@@ -110,29 +111,20 @@ app/
 
 #### Supported `action` messages (JSON):
 
-| Action      | Description                        |
-|-------------|------------------------------------|
-| `call`      | Initiate a call                    |
-| `offer`     | WebRTC offer SDP                   |
-| `answer`    | WebRTC answer SDP                  |
-| `candidate` | WebRTC ICE candidate               |
-| `accept`    | Accept incoming call               |
-| `decline`   | Decline incoming call              |
-| `end-call`  | End the call                       |
-| `ping`      | Keepalive                          |
-
-#### Example message format:
-```json
-{
-  "action": "call",
-  "recipient": "target_username"
-}
-```
+| Action      | Direction         | Description                        | Payload Example / Notes                |
+|-------------|-------------------|------------------------------------|----------------------------------------|
+| `call`      | client → server   | Initiate a call                    | `{ "action": "call", "recipient": "target_username" }` |
+| `call`      | server → client   | Incoming call notification         | `{ "action": "call", "caller": "...", "recipient": "...", "recipient_online": true/false }` |
+| `offer`     | client/server ↔   | WebRTC offer SDP                   | `{ "action": "offer", "recipient": "...", "offer": {...} }` |
+| `answer`    | client/server ↔   | WebRTC answer SDP                  | `{ "action": "answer", "recipient": "...", "answer": {...} }` |
+| `candidate` | client/server ↔   | WebRTC ICE candidate               | `{ "action": "candidate", "recipient": "...", "candidate": {...} }` |
+| `accept`    | client/server ↔   | Accept incoming call               | `{ "action": "accept", "recipient": "..." }` |
+| `decline`   | client/server ↔   | Decline incoming call              | `{ "action": "decline", "recipient": "..." }` |
+| `end-call`  | client/server ↔   | End the call                       | `{ "action": "end-call", "recipient": "..." }` |
+| `ping`      | client → server   | Keepalive                          | `{ "action": "ping" }`                 |
+| `connection_success` | server → client | Connection established         | `{ "action": "connection_success", ... }` |
 
 ---
-
-
-
 
 ## Getting Started
 
