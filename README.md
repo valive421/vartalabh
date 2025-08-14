@@ -6,7 +6,7 @@ A full-stack chat and video call application built with React Native (frontend) 
 
 
 ##Download from 
-https://github.com/valive421/vartalabh/releases/tag/apk
+https://github.com/valive421/vartalabh/releases/tag/varta
 
 ## Features
 - Real-time chat messaging
