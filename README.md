@@ -5,7 +5,7 @@
 A full-stack chat and video call application built with React Native (frontend) and Django (backend).
 
 
-##Download from 
+## Download from 
 https://github.com/valive421/vartalabh/releases/tag/varta
 
 ## Features
@@ -22,6 +22,15 @@ https://github.com/valive421/vartalabh/releases/tag/varta
 - **Backend:** Django, Django Channels, Django REST Framework, Simple JWT
 - **Database:** SQLite (default, can be changed)
 - **Mobile:** Android (Gradle), iOS (Xcode)
+
+
+## Demo
+
+
+
+https://github.com/user-attachments/assets/479d32d5-8fed-4ba9-a202-c8d7c0ea5849
+
+
 
 ## Project Structure
 
