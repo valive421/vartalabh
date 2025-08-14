@@ -52,6 +52,88 @@ app/
 │   └── ...
 ```
 
+
+# Vartalab API & WebSocket Routes
+
+## REST API Endpoints
+
+| Endpoint                | Method | Description                       |
+|-------------------------|--------|-----------------------------------|
+| `/api/signin/`          | POST   | User sign-in                      |
+| `/api/token/refresh/`   | POST   | Refresh JWT access token          |
+| `/api/user/`            | GET    | Get current user info             |
+| `/api/user/<username>/` | GET    | Get user info by username         |
+| `/api/friend/list/`     | GET    | Get friend list                   |
+| `/api/message/list/`    | GET    | Get messages for a connection     |
+| `/api/message/send/`    | POST   | Send a message                    |
+| `/api/thumbnail/`       | POST   | Upload/change user thumbnail      |
+
+> **Note:** Some endpoints may require authentication via JWT token.
+
+---
+
+## WebSocket Routes
+
+### Chat WebSocket
+
+- **URL:** `ws://<host>/chat/?token=<access_token>`
+
+#### Supported `source` messages (JSON):
+
+| Source             | Description                                 |
+|--------------------|---------------------------------------------|
+| `search`           | Search for users                            |
+| `thumbnail`        | Upload/change user thumbnail                |
+| `request.connect`  | Send a friend request                       |
+| `request.accept`   | Accept a friend request                     |
+| `request.list`     | Get all pending friend requests             |
+| `friend.list`      | Get all friends                             |
+| `message.send`     | Send a message                              |
+| `message.list`     | Get messages for a connection               |
+| `message.typing`   | Typing indicator                            |
+| `message.read`     | Mark message as read                        |
+| `ping` / `pong`    | Keepalive                                   |
+
+#### Example message format:
+```json
+{
+  "source": "request.connect",
+  "username": "target_username"
+}
+```
+
+---
+
+### Video Call WebSocket
+
+- **URL:** `ws://<host>/ws/video/?token=<access_token>`
+
+#### Supported `action` messages (JSON):
+
+| Action      | Description                        |
+|-------------|------------------------------------|
+| `call`      | Initiate a call                    |
+| `offer`     | WebRTC offer SDP                   |
+| `answer`    | WebRTC answer SDP                  |
+| `candidate` | WebRTC ICE candidate               |
+| `accept`    | Accept incoming call               |
+| `decline`   | Decline incoming call              |
+| `end-call`  | End the call                       |
+| `ping`      | Keepalive                          |
+
+#### Example message format:
+```json
+{
+  "action": "call",
+  "recipient": "target_username"
+}
+```
+
+---
+
+
+
+
 ## Getting Started
 
 ### Backend (Django)
