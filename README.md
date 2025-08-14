@@ -79,7 +79,6 @@ app/
 | Source             | Direction      | Description                                 | Payload Example / Notes                |
 |--------------------|---------------|---------------------------------------------|----------------------------------------|
 | `search`           | client → server | Search for users                            | `{ "source": "search", "query": "..." }` |
-
 | `thumbnail`        | client → server | Upload/change user thumbnail (base64)        | `{ "source": "thumbnail", "base64": "...", "filename": "..." }` |
 | `request.accept`   | server → client | Friend request accepted                     | `{ "source": "request.accept", "data": {request} }` |
 | `request.list`     | server → client | List of pending requests                    | `{ "source": "request.list", "data": [request, ...] }` |
