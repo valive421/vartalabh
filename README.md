@@ -21,7 +21,7 @@ https://github.com/valive421/vartalabh/releases/tag/varta
 - **Frontend:** React Native, React Navigation, Hermes JS engine
 - **Backend:** Django, Django Channels, Django REST Framework, Simple JWT
 - **Database:** SQLite (default, can be changed)
-- **Mobile:** Android (Gradle), iOS (Xcode)
+- **Mobile:** Android (Gradle)
 
 
 ## Demo
@@ -144,10 +144,6 @@ app/
    ```
    npm run android
    ```
-4. Run on iOS (Mac only):
-   ```
-   npm run ios
-   ```
 
 ## Environment Variables
 - Configure Django settings in `core/core/settings.py` as needed.
@@ -165,13 +161,10 @@ app/
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## License
-This project is licensed under the MIT License.
-
 ## Troubleshooting
 - If Metro bundler fails, restart it in the `chat` directory.
 - For missing dependencies, check `requirements.txt` and `package.json`.
-- For Android/iOS build issues, ensure all native dependencies are installed.
+- For Android build issues, ensure all native dependencies are installed.
 
 ## Credits
 - React Native documentation: https://reactnative.dev/
