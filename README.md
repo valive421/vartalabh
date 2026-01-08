@@ -52,6 +52,9 @@ app/
 │   └── ...
 ```
 
+## ER Digram
+<img width="1171" height="344" alt="Untitled (2)" src="https://github.com/user-attachments/assets/5fc7efe7-0d76-4295-a616-0c1bb670083b" />
+
 
 ## REST API Endpoints
 
